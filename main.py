@@ -110,7 +110,6 @@ def add_movie(movies):
             print("Invalid year of release input, please enter an integer.")
 
     movie_storage.add_movie(movie_title, year_of_release, rating)
-    print(f"Movie {movie_title} successfully added")
 
 
 def delete_movie(movies):
@@ -118,7 +117,6 @@ def delete_movie(movies):
     movie_title = input("\nEnter movie title: ").strip()
     if movie_title in movies:
         movie_storage.delete_movie(movie_title)
-        print(f"Movie {movie_title} successfully deleted")
     else:
         print("Movie not found")
 
@@ -136,7 +134,6 @@ def update_movie(movies):
             rating = float(input("Enter new movie rating: "))
             if 0 <= rating <= 10:
                 movie_storage.update_movie(movie_title, rating)
-                print(f"Movie {movie_title} successfully updated")
                 break
             else:
                 raise ValueError
