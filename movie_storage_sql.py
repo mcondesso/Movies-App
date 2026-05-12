@@ -14,7 +14,8 @@ with engine.connect() as connection:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT UNIQUE NOT NULL,
             year INTEGER NOT NULL,
-            rating REAL NOT NULL
+            rating REAL NOT NULL,
+            poster_url TEXT
         )
     """)
     )
@@ -24,21 +25,31 @@ with engine.connect() as connection:
 def get_movies():
     """Retrieve all movies from the database."""
     with engine.connect() as connection:
-        result = connection.execute(text("SELECT title, year, rating FROM movies"))
+        result = connection.execute(
+            text("SELECT title, year, rating, poster_url FROM movies")
+        )
         movies = result.fetchall()
 
-    return {row[0]: {"year": row[1], "rating": row[2]} for row in movies}
+    return {
+        row[0]: {"year": row[1], "rating": row[2], "poster_url": row[3]}
+        for row in movies
+    }
 
 
-def add_movie(title, year, rating):
+def add_movie(title, year, rating, poster_url=None):
     """Add a new movie to the database."""
     with engine.connect() as connection:
         try:
             connection.execute(
                 text(
-                    "INSERT INTO movies (title, year, rating) VALUES (:title, :year, :rating)"
+                    "INSERT INTO movies (title, year, rating, poster_url) VALUES (:title, :year, :rating, :poster_url)"
                 ),
-                {"title": title, "year": year, "rating": rating},
+                {
+                    "title": title,
+                    "year": year,
+                    "rating": rating,
+                    "poster_url": poster_url,
+                },
             )
             connection.commit()
             print(f"Movie '{title}' added successfully.")
