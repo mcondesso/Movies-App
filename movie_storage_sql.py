@@ -51,10 +51,7 @@ def delete_movie(title):
     with engine.connect() as connection:
         try:
             connection.execute(
-                text(
-                    "DELETE FROM movies WHERE title = :title"
-                ),
-                {"title": title}
+                text("DELETE FROM movies WHERE title = :title"), {"title": title}
             )
             connection.commit()
             print(f"Movie '{title}' deleted successfully.")
@@ -67,10 +64,8 @@ def update_movie(title, rating):
     with engine.connect() as connection:
         try:
             connection.execute(
-                text(
-                    "UPDATE movies SET rating = :rating WHERE title = :title"
-                ),
-                {"rating": rating, "title": title}
+                text("UPDATE movies SET rating = :rating WHERE title = :title"),
+                {"rating": rating, "title": title},
             )
             connection.commit()
             print(f"Movie '{title}' updated successfully.")

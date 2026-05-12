@@ -19,11 +19,10 @@ Commands:
 The program runs in a loop until interrupted by the user.
 """
 
-
 import random
 import sys
 from statistics import median
-import movie_storage
+import movie_storage_sql as movie_storage
 
 
 def print_menu():
@@ -103,7 +102,6 @@ def add_movie(movies):
         except ValueError:
             print("Invalid rating input. Please enter a number between 0 and 10.")
 
-
     while True:
         try:
             year_of_release = int(input("Enter new movie year of release: "))
@@ -159,8 +157,12 @@ def get_stats(movies):
     max_rating = max(ratings)
     min_rating = min(ratings)
 
-    max_movies = [title for title, data in movies.items() if data["rating"] == max_rating]
-    min_movies = [title for title, data in movies.items() if data["rating"] == min_rating]
+    max_movies = [
+        title for title, data in movies.items() if data["rating"] == max_rating
+    ]
+    min_movies = [
+        title for title, data in movies.items() if data["rating"] == min_rating
+    ]
 
     print(f"\nAverage rating: {avg_rating:.2f}")
     print(f"Median rating: {median_rating:.2f}")
@@ -174,7 +176,7 @@ def print_random_movie(movies):
         print("No movies found")
         return
     movie_choice = random.choice(list(movies.items()))
-    print("\nYour movie for tonight is ", end= "")
+    print("\nYour movie for tonight is ", end="")
     print_movie_info(movie_choice[0], movie_choice[1])
 
 
@@ -193,6 +195,9 @@ def search_movie(movies):
 def print_sorted_movies(movies):
     """Print movies sorted by rating in descending order."""
     print()
+    if not movies:
+        print("No movies found.")
+        return
     sorted_movies = sorted(movies.items(), key=lambda x: x[1]["rating"], reverse=True)
     for title, data in sorted_movies:
         print_movie_info(title, data)
