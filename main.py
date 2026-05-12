@@ -22,6 +22,9 @@ The program runs in a loop until interrupted by the user.
 import random
 import sys
 from statistics import median
+
+from dotenv import load_dotenv
+
 import movie_storage_sql as movie_storage
 
 
@@ -203,6 +206,8 @@ def print_sorted_movies(movies):
 def main():
     """Main program loop."""
     print("********** My Movies Database **********")
+
+    load_dotenv()
 
     commands = {
         0: exit_program,
