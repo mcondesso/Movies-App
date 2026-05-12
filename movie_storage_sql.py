@@ -21,7 +21,7 @@ with engine.connect() as connection:
     connection.commit()
 
 
-def list_movies():
+def get_movies():
     """Retrieve all movies from the database."""
     with engine.connect() as connection:
         result = connection.execute(text("SELECT title, year, rating FROM movies"))
