@@ -25,6 +25,7 @@ from statistics import median
 
 from dotenv import load_dotenv
 
+import movie_data_api as movie_api
 import movie_storage_sql as movie_storage
 
 
@@ -96,23 +97,17 @@ def add_movie(movies):
         print(f"Movie {movie_title} already exists")
         return
 
-    while True:
-        try:
-            rating = float(input("Enter new movie rating (0-10): "))
-            if rating < 0 or rating > 10:
-                raise ValueError
-            break
-        except ValueError:
-            print("Invalid rating input. Please enter a number between 0 and 10.")
+    movie_data = movie_api.get_movie_data(movie_title)
+    if "error" in movie_data:
+        print(f"Error fetching movie data: {movie_data['error']}")
+        return
 
-    while True:
-        try:
-            year_of_release = int(input("Enter new movie year of release: "))
-            break
-        except ValueError:
-            print("Invalid year of release input, please enter an integer.")
-
-    movie_storage.add_movie(movie_title, year_of_release, rating)
+    movie_storage.add_movie(
+        movie_data["title"],
+        movie_data["year"],
+        movie_data["rating"],
+        movie_data["poster_image_url"],
+    )
 
 
 def delete_movie(movies):
