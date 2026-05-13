@@ -26,9 +26,9 @@ from statistics import median
 
 from dotenv import load_dotenv
 
-import movie_data_api as movie_api
-import movie_storage_sql as movie_storage
-import website_generator
+import src.movie_data_api as movie_api
+import src.movie_storage_sql as movie_storage
+import src.website_generator as website_generator
 
 
 def print_menu():
