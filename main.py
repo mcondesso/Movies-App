@@ -43,15 +43,34 @@ def print_menu():
         "5. Stats\n"
         "6. Random movie\n"
         "7. Search movie\n"
-        "8. Movies sorted by rating\n"
-        "9. Generate website\n"
+        "8. Generate website\n"
+        "9. Switch user\n"
     )
     print(menu_text)
 
 
-def get_choice():
+def get_user_choice(users):
     """
-    Prompt the user to enter a choice from 0 to 8.
+    Prompt the user to pick an existing user or create a new one.
+    """
+    print("Select a user:")
+    for i in range(len(users)):
+        print(f"{i + 1}. {users[i]}")
+    print(f"{len(users) + 1}. Create new user")
+
+    while True:
+        try:
+            choice = int(input(f"Enter choice (1-{len(users) + 1}): "))
+            if 1 <= choice <= len(users) + 1:
+                return choice
+            print("Invalid choice")
+        except ValueError:
+            print(f"Invalid input. Please enter a number between 1 and {len(users) + 1}.")
+
+
+def get_menu_choice():
+    """
+    Prompt the user to enter a choice from 0 to 9.
     Repeats until a valid integer in range is entered.
     """
     while True:
@@ -190,20 +209,14 @@ def cmd_search_movie(movies):
         print("No movies found matching your search.")
 
 
-def cmd_print_sorted_movies(movies):
-    """Print movies sorted by rating in descending order."""
-    print()
-    if not movies:
-        print("No movies found.")
-        return
-    sorted_movies = sorted(movies.items(), key=lambda x: x[1]["rating"], reverse=True)
-    for title, data in sorted_movies:
-        print_movie_info(title, data)
-
-
 def cmd_generate_website(movies):
     """Generate a simple HTML page with movie posters and ratings."""
     website_generator.generate_website(movies)
+
+
+def cmd_switch_user(*args):
+    """Switch to a different user."""
+    pass  # Placeholder for user switching functionality
 
 
 def main():
@@ -221,12 +234,18 @@ def main():
         5: cmd_get_stats,
         6: cmd_print_random_movie,
         7: cmd_search_movie,
-        8: cmd_print_sorted_movies,
-        9: cmd_generate_website,
+        8: cmd_generate_website,
+        9: cmd_switch_user,
     }
 
+    users = movie_storage.get_users()
+    user_choice = get_user_choice(users)
+
     while True:
-        choice = get_choice()
+        choice = get_menu_choice()
+        if choice == 9:
+            user_choice = get_user_choice(users)
+            if user_choice
         if choice in commands:
             movies = movie_storage.get_movies()
             commands[choice](movies)
