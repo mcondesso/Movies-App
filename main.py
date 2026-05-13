@@ -62,12 +62,6 @@ def get_choice():
             print("Invalid input. Please enter a number between 0 and 8.")
 
 
-def exit_program(*args):
-    """Exit the program."""
-    print("\nBye!")
-    sys.exit(0)
-
-
 def print_movie_info(movie_title, movie_data):
     """Print the data of a movie."""
     textline = movie_title + " - "
@@ -76,7 +70,13 @@ def print_movie_info(movie_title, movie_data):
     print(textline[:-2])
 
 
-def list_movies(movies):
+def cmd_exit_program(*args):
+    """Exit the program."""
+    print("\nBye!")
+    sys.exit(0)
+
+
+def cmd_list_movies(movies):
     """Print all movies and their ratings."""
     print(f"\n{len(movies)} Movies in total")
 
@@ -84,7 +84,7 @@ def list_movies(movies):
         print_movie_info(title, data)
 
 
-def add_movie(movies):
+def cmd_add_movie(movies):
     """Add a new movie with a rating if it does not already exist."""
     while True:
         movie_title = input("\nEnter new movie title: ").strip()
@@ -110,7 +110,7 @@ def add_movie(movies):
     )
 
 
-def delete_movie(movies):
+def cmd_delete_movie(movies):
     """Delete a movie if it exists."""
     movie_title = input("\nEnter movie title: ").strip()
     if movie_title in movies:
@@ -119,7 +119,7 @@ def delete_movie(movies):
         print("Movie not found")
 
 
-def update_movie(movies):
+def cmd_update_movie(movies):
     """Update the rating of an existing movie."""
     movie_title = input("\nEnter movie title to update: ").strip()
 
@@ -139,7 +139,7 @@ def update_movie(movies):
             print("Invalid rating input. Please enter a number between 0 and 10.")
 
 
-def get_stats(movies):
+def cmd_get_stats(movies):
     """Print average, median, best, and worst movie ratings."""
     if not movies:
         print("No movies found")
@@ -165,7 +165,7 @@ def get_stats(movies):
     print(f"Worst movie: {str(min_movies)[1:-1]}, {min_rating:.2f}")
 
 
-def print_random_movie(movies):
+def cmd_print_random_movie(movies):
     """Print a randomly selected movie and its rating."""
     if not movies:
         print("No movies found")
@@ -175,7 +175,7 @@ def print_random_movie(movies):
     print_movie_info(movie_choice[0], movie_choice[1])
 
 
-def search_movie(movies):
+def cmd_search_movie(movies):
     """Search for movies containing a substring (case-insensitive)."""
     search_term = input("\nEnter part of movie title: ").strip().lower()
     found = False
@@ -187,7 +187,7 @@ def search_movie(movies):
         print("No movies found matching your search.")
 
 
-def print_sorted_movies(movies):
+def cmd_print_sorted_movies(movies):
     """Print movies sorted by rating in descending order."""
     print()
     if not movies:
@@ -205,15 +205,15 @@ def main():
     load_dotenv()
 
     commands = {
-        0: exit_program,
-        1: list_movies,
-        2: add_movie,
-        3: delete_movie,
-        4: update_movie,
-        5: get_stats,
-        6: print_random_movie,
-        7: search_movie,
-        8: print_sorted_movies,
+        0: cmd_exit_program,
+        1: cmd_list_movies,
+        2: cmd_add_movie,
+        3: cmd_delete_movie,
+        4: cmd_update_movie,
+        5: cmd_get_stats,
+        6: cmd_print_random_movie,
+        7: cmd_search_movie,
+        8: cmd_print_sorted_movies,
     }
 
     while True:
