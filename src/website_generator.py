@@ -1,5 +1,5 @@
-HTML_TEMPLATE_FILEPATH = "_static/index_template.html"
-HTML_OUTPUT_FILEPATH = "_static/index.html"
+HTML_TEMPLATE_FILEPATH = "static/index_template.html"
+HTML_OUTPUT_FILEPATH = "static/index.html"
 
 
 def serialize_movie(movie_title, movie_data):
