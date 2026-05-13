@@ -15,6 +15,7 @@ Commands:
 6. Random movie
 7. Search movie
 8. Movies sorted by rating
+9. Generate website
 
 The program runs in a loop until interrupted by the user.
 """
@@ -27,6 +28,7 @@ from dotenv import load_dotenv
 
 import movie_data_api as movie_api
 import movie_storage_sql as movie_storage
+import website_generator
 
 
 def print_menu():
@@ -42,6 +44,7 @@ def print_menu():
         "6. Random movie\n"
         "7. Search movie\n"
         "8. Movies sorted by rating\n"
+        "9. Generate website\n"
     )
     print(menu_text)
 
@@ -54,12 +57,12 @@ def get_choice():
     while True:
         print_menu()
         try:
-            choice = int(input("Enter choice (0-8): "))
-            if 0 <= choice <= 8:
+            choice = int(input("Enter choice (0-9): "))
+            if 0 <= choice <= 9:
                 return choice
             print("Invalid choice")
         except ValueError:
-            print("Invalid input. Please enter a number between 0 and 8.")
+            print("Invalid input. Please enter a number between 0 and 9.")
 
 
 def print_movie_info(movie_title, movie_data):
@@ -198,6 +201,11 @@ def cmd_print_sorted_movies(movies):
         print_movie_info(title, data)
 
 
+def cmd_generate_website(movies):
+    """Generate a simple HTML page with movie posters and ratings."""
+    website_generator.generate_website(movies)
+
+
 def main():
     """Main program loop."""
     print("********** My Movies Database **********")
@@ -214,6 +222,7 @@ def main():
         6: cmd_print_random_movie,
         7: cmd_search_movie,
         8: cmd_print_sorted_movies,
+        9: cmd_generate_website,
     }
 
     while True:
